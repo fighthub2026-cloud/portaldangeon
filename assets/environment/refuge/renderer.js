@@ -1,17 +1,19 @@
 /* Refúgio: camada visual independente. Nunca escreve na grade nem no estado de jogo. */
 const refugeCatalog=__CATALOG__;
-const refugeImages={objects:new Image(),terrain:new Image(),details:new Image(),dungeon:new Image(),low:new Image()};
+const refugeImages={objects:new Image(),terrain:new Image(),details:new Image(),dungeon:new Image(),low:new Image(),ruins:new Image()};
 refugeImages.objects.src=__OBJECTS__;
-refugeImages.terrain.src=__TERRAIN__;refugeImages.details.src=__DETAILS__;refugeImages.dungeon.src=__DUNGEON__;refugeImages.low.src=__LOW__;
+refugeImages.terrain.src=__TERRAIN__;refugeImages.details.src=__DETAILS__;refugeImages.dungeon.src=__DUNGEON__;refugeImages.low.src=__LOW__;refugeImages.ruins.src=__RUINS__;
 const refugeArt={ready:false,sprites:new Map(),tiles:[],floorCache:new Map(),error:null};
 function refugeCrop(image,rect,width,height,diamond=false){const raw=document.createElement('canvas');const [u,v,w,h]=rect;raw.width=Math.round(w*image.naturalWidth);raw.height=Math.round(h*image.naturalHeight);const c=raw.getContext('2d');c.drawImage(image,Math.round(u*image.naturalWidth),Math.round(v*image.naturalHeight),raw.width,raw.height,0,0,raw.width,raw.height);const a=c.getImageData(0,0,raw.width,raw.height).data;let left=raw.width,top=raw.height,right=0,bottom=0;for(let y=0;y<raw.height;y++)for(let x=0;x<raw.width;x++)if(a[(y*raw.width+x)*4+3]>96){left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y)}if(right<left)throw Error('Sprite vazio');const out=document.createElement('canvas');out.width=width*2;out.height=height*2;const ctx=out.getContext('2d');ctx.imageSmoothingEnabled=false;if(diamond){ctx.beginPath();ctx.moveTo(width,0);ctx.lineTo(width*2,height);ctx.lineTo(width,height*2);ctx.lineTo(0,height);ctx.closePath();ctx.clip()}ctx.drawImage(raw,left,top,right-left+1,bottom-top+1,0,0,out.width,out.height);return out}
 function prepareRefugeArt(){if(refugeArt.ready||!Object.values(refugeImages).every(i=>i.complete&&i.naturalWidth))return;try{for(const [id,def]of Object.entries(refugeCatalog.sprites))refugeArt.sprites.set(id,refugeCrop(refugeImages[def.atlas||'objects'],def.rect,...def.size));for(let i=0;i<8;i++)refugeArt.tiles.push(refugeCrop(refugeImages.terrain,[(i%4)/4,Math.floor(i/4)/2,.25,.5],32,16,true));refugeArt.tilePixels=refugeArt.tiles.map(c=>c.getContext('2d').getImageData(0,0,64,32).data);refugeArt.ready=true}catch(e){refugeArt.error=e.message;console.error('Refúgio: '+e.message)}}
 Object.values(refugeImages).forEach(i=>i.addEventListener('load',prepareRefugeArt));
 function refugeSprite(id,sx,sy,alpha=1){const def=refugeCatalog.sprites[id],image=refugeArt.sprites.get(id);if(!image)return false;g.save();g.imageSmoothingEnabled=false;g.globalAlpha*=alpha;if(id==='lantern')g.globalAlpha*=.96+.04*Math.sin((refugeArt.time||0)*1.7+sx);if(def.flipX){g.translate(Math.round(sx),0);g.scale(-1,1);sx=0}g.drawImage(image,Math.round(sx-def.size[0]*def.origin[0]),Math.round(sy-def.size[1]*def.origin[1]),...def.size);g.restore();return true}
+// Região visual das Ruínas Ancestrais: não participa de colisões ou progressão.
+function ancestralRuinsWeight(x,y){if(cur!=='dungeon'||x<15||x>25||y<3||y>15)return 0;return Math.max(0,1-((x-20)/6.5)**2-((y-10)/6)**2)}
 function environmentTerrainIndex(x,y){
  if(M[y]?.[x]==='W')return 7;
  const path=trailCells.has(x+','+y),nearPortal=ports.some(([a,b])=>Math.hypot(x-a,y-b)<1.8);
- if(cur==='dungeon')return x>=27&&y>=15?5:path?(nearPortal?5:4):x>=15&&y<15?1:y>=15?6:0;
+ if(cur==='dungeon'){const ruins=ancestralRuinsWeight(x,y);if(ruins>.52||(ruins>.13&&((x*23+y*31)%17)/17<ruins*.75))return 5;return x>=27&&y>=15?5:path?(nearPortal?5:4):x>=15&&y<15?1:y>=15?6:0;}
  return path?(nearPortal?5:4):x<5&&y>10?6:y<5&&x<8?1:x>14&&y>10?2:0;
 }
 function refugeFloorTile(x,y){
@@ -34,7 +36,7 @@ function drawRefugeFloorArt(x,y,sx,sy){if(!refugeArt.ready)return false;const ti
 function environmentObstacleId(x,y){
  const n=(x*13+y*7)%11,nearTrail=[[0,-1],[1,0],[0,1],[-1,0]].some(([dx,dy])=>trailCells.has((x+dx)+','+(y+dy))),arena=cur==='dungeon'&&x>=25&&y>=14;
  if(cur==='dungeon'){
-  if(x===26&&y===17)return 'fendaArch';
+  if(x===26&&y===17)return 'fendaArch';if(x===20&&y===7)return 'ancestralShrine';if(x===21&&y===12)return 'guardianStatue';if((x===18||x===23)&&y===10)return 'carvedRubble';if(ancestralRuinsWeight(x,y)>.1)return n%3===0?'column':n%3===1?'mossWall':'ruinSteps';
   if(!nearTrail&&!arena&&n===0)return 'fendaTree';
   return n===1?'mossWall':n===2?'rootStump':n===3?'fendaLog':n===7?'column':n===4?'fendaCrystal':n===5?'ruinSteps':n===8?'mushroomRock':'boulder';
  }
@@ -65,7 +67,7 @@ function drawRefugeObstacleArt(x,y,sx,sy){
 function queueRefugeDecorations(D,S,t){if(!refugeArt.ready)return;if(cur==='dungeon'){queueDungeonDecorations(D,S,t);return}for(let y=1;y<ROWS-1;y++)for(let x=1;x<COLS-1;x++){if(M[y][x]!=='.'||trailCells.has(x+','+y)||[{x:px,y:py},...enemies].some(a=>Math.hypot(x+.5-a.x,y+.5-a.y)<1))continue;const n=(x*37+y*61)%19;if(n!==1)continue;const [sx,sy]=S(x,y);if(sx<-25||sx>W+25||sy<-25||sy>H+30)continue;D.push([x+y+.75,()=>refugeSprite('fern',sx+5,sy+1,.85)])}for(const x of [6,13]){const [bx,by]=S(x,9);D.push([x+9+.5,()=>refugeSprite('bridge',bx,by+7)])}for(const x of [8,11,15]){const [mx,my]=S(x,8);D.push([x+8.7,()=>refugeSprite('mushrooms',mx+9,my+3)])}const [sx,sy]=S(15,11);D.push([27,()=>{shadow(sx,sy,15,5,.3);refugeSprite('altar',sx,sy,Math.hypot(px-15.5,py-11.5)<1.4?.35:1)}])}
 
 function queueDungeonDecorations(D,S,t){for(let y=1;y<ROWS-1;y++)for(let x=1;x<COLS-1;x++){if(M[y][x]!=='.'||trailCells.has(x+','+y)||(x>=27&&y>=15)||[{x:px,y:py},...enemies].some(a=>Math.hypot(x+.5-a.x,y+.5-a.y)<1))continue;const n=(x*37+y*61)%29,mushroomGrove=x<12&&y>=15;if(n!==1&&!(mushroomGrove&&n===5))continue;const [sx,sy]=S(x,y);if(sx<-25||sx>W+25||sy<-25||sy>H+30)continue;D.push([x+y+.75,()=>refugeSprite(mushroomGrove?'mushrooms':'fern',sx+7,sy+1,.85)])}}
-function drawDungeonAtmosphere(S,t){if(cur!=='dungeon'||!refugeArt.ready)return;g.save();for(const [x,y]of [[20,10],[10,20],[30,21]]){const [sx,sy]=S(x,y);if(sx<-90||sx>W+90||sy<-90||sy>H+90)continue;glow(sx+Math.sin(t*.25+x)*6,sy,55,'93,104,157',.045)}g.restore()}
+function drawDungeonAtmosphere(S,t){if(cur!=='dungeon'||!refugeArt.ready)return;g.save();for(const [x,y]of [[19,8],[22,10],[19,13]]){if(M[y]?.[x]!=='.')continue;const [sx,sy]=S(x,y);refugeSprite('runeSlab',sx,sy+5,.86)}for(const [x,y]of [[20,10],[10,20],[30,21]]){const [sx,sy]=S(x,y);if(sx<-90||sx>W+90||sy<-90||sy>H+90)continue;glow(sx+Math.sin(t*.25+x)*6,sy,55,'93,104,157',.045)}g.restore()}
 
 let environmentAmbience=null;
 function updateEnvironmentAmbience(){

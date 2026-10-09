@@ -14,3 +14,5 @@ Decisão do usuário em 2026-10-09: voltar à v5 e trabalhar em cima dela.
 - Priorizar a visibilidade dos caminhos e mobs: árvores altas espaçadas, obstáculos baixos junto a trilhas e arena, e transparência da parte superior quando encobrir qualquer ator vivo. Manter bases e colisões legíveis.
 
 - Terrenos usam transições de pixels em cache. Obstáculos baixos adicionais em `assets/environment/shared`. Som ambiente usa o contexto de áudio existente e deve respeitar mute, pausa e aba oculta; não modificar combate ou salvamento para efeitos ambientais.
+
+- Ruínas Ancestrais implantadas visualmente no trecho central da dungeon. Preservar marcos em células já sólidas, inscrições na camada do chão e leitura do combate. Fontes do novo atlas em `assets/environment/dungeon/ancestral-ruins.png`.

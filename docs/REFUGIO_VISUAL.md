@@ -28,13 +28,13 @@ Quando os PNGs ainda não carregaram, o cenário anterior continua disponível. 
 
 ## Validação
 
-`tests/refuge-art.cjs` usa Playwright e Chromium. Requer `playwright` disponível no Node e Chromium em `/usr/bin/chromium`. Executar `node tests/refuge-art.cjs`. O teste compara com a base no commit `6d07fb6`, verifica igualdade do código anterior à seção de desenho, mudança visual do Refúgio, preservação do código funcional e visibilidade de mobs atrás de objetos, carregamento dos atlas, cache estável, renderização desktop e celular, ausência de erros e de requisições externas. Capturas ficam em `/tmp/portais-refuge-pilot*.png`.
+`tests/refuge-art.cjs` usa Playwright e Chromium. Requer `playwright` disponível no Node e Chromium em `/usr/bin/chromium`. Executar `node tests/refuge-art.cjs`. O teste compara com a base no commit `26eb96e`, verifica igualdade do código anterior à seção de desenho, mudança visual do Refúgio, preservação do código funcional e visibilidade de mobs atrás de objetos, carregamento dos atlas, cache estável, renderização desktop e celular, ausência de erros e de requisições externas. Capturas ficam em `/tmp/portais-refuge-pilot*.png`.
 
 Também foram executados os testes existentes de combo, esquiva, colisão com mobs, linha de visão, especial, áudio, menu, perfil e acesso às duas pontes e ao portal. O ensaio de 60 quadros no Chromium desta máquina registrou cerca de 27 ms por quadro em 1280 × 800; não é uma garantia de desempenho em celulares reais. Os PNGs incorporados aumentam o tamanho do HTML offline.
 
 ## Expansão à Floresta da Fenda
 
-O mesmo catálogo agora contém 20 objetos e oito terrenos. A entrada usa grama e trilhas; a região central usa musgo escuro; trechos inferiores recebem folhas caídas; a arena do chefe usa pavimentação antiga. Cristais, troncos e árvores retorcidas substituem os obstáculos simples exclusivamente no desenho. Um arco monumental ocupa uma célula já sólida junto à arena. Névoa discreta aparece em três regiões do mapa, sem novos estados de jogo. Portais de ida e volta e lanternas usam o mesmo padrão de sprites.
+O mesmo catálogo agora contém 24 objetos e oito terrenos. A entrada usa grama e trilhas; a região central usa musgo escuro; trechos inferiores recebem folhas caídas; a arena do chefe usa pavimentação antiga. Cristais, troncos e árvores retorcidas substituem os obstáculos simples exclusivamente no desenho. Um arco monumental ocupa uma célula já sólida junto à arena. Névoa discreta aparece em três regiões do mapa, sem novos estados de jogo. Portais de ida e volta e lanternas usam o mesmo padrão de sprites.
 
 Não há árvores decorativas sólidas no meio dos caminhos. As decorações baixas evitam trilhas e o piso da arena. A grade de colisões, coordenadas do portal e posições de todos os inimigos e do chefe são exatamente as anteriores.
 
@@ -63,3 +63,13 @@ O atlas `assets/environment/shared/low-obstacles.png` contém muro com musgo, to
 Dois canais Web Audio reutilizáveis sintetizam vento e água com ruído filtrado. O áudio usa o contexto já existente, após interação do usuário. O volume do riacho depende da proximidade no Refúgio; a dungeon recebe vento mais grave. O botão de áudio existente silencia tudo. Pausa e aba oculta também silenciam o ambiente, com transição gradual de volume. Não há arquivos de áudio externos ou alterações no salvamento.
 
 Validação adicional: presença de água perto do riacho, vento na dungeon, silêncio na pausa e ao silenciar áudio. Código funcional anterior à seção de desenho permanece igual à versão anterior.
+
+## Ruínas Ancestrais — primeiro lugar reconhecível
+
+A região central da dungeon (aproximadamente x=15–25, y=3–15) recebe um pátio de pedra antiga com limite orgânico, calculado por uma influência elíptica. Pedra e musgo se misturam gradualmente nas bordas com o sistema de transições existente. O mapa funcional não participa desse cálculo.
+
+O atlas `assets/environment/dungeon/ancestral-ruins.png` adiciona laje gravada, santuário, estátua de guardião quebrada e escombros com relevos. O santuário ocupa a célula já sólida (20,7), a estátua (21,12) e os escombros (18,10) e (23,10). Muros, colunas e degraus reforçam as margens do pátio. Objetos mantêm silhuetas moderadas e a transparência para atores.
+
+Lajes gravadas em (19,8), (22,10) e (19,13) são desenhadas na camada do chão, antes dos personagens. São decoração plana, sem interação ou colisão adicional. A arena do chefe e o Refúgio não receberam alterações nessa etapa.
+
+Validação: presença dos marcos nas células existentes, piso de pedra no centro, código funcional intacto, imagem do Refúgio idêntica, transparência de obstáculos, cache estável, desktop/celular, áudio e regressão do combate.

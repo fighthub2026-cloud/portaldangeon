@@ -5,7 +5,7 @@ root=Path(__file__).resolve().parents[1]
 p=root/'Portais_Floresta_v5.html';s=p.read_text()
 module=(root/'assets/environment/refuge/renderer.js').read_text()
 module=module.replace('__CATALOG__',(root/'assets/environment/refuge/catalog.json').read_text())
-for token,filename in [('__OBJECTS__','objects.png'),('__TERRAIN__','terrain.png'),('__DETAILS__','details.png'),('__DUNGEON__','../dungeon/objects.png'),('__LOW__','../shared/low-obstacles.png')]:
+for token,filename in [('__OBJECTS__','objects.png'),('__TERRAIN__','terrain.png'),('__DETAILS__','details.png'),('__DUNGEON__','../dungeon/objects.png'),('__LOW__','../shared/low-obstacles.png'),('__RUINS__','../dungeon/ancestral-ruins.png')]:
  data=base64.b64encode((root/'assets/environment/refuge'/filename).read_bytes()).decode();module=module.replace(token,json.dumps('data:image/png;base64,'+data))
 a='/* REFUGE_ASSETS_START */';b='/* REFUGE_ASSETS_END */';block=a+'\n'+module+'\n'+b+'\n'
 if a in s:s=re.sub(re.escape(a)+r'[\s\S]*?'+re.escape(b)+'\n?',lambda _:block,s,count=1)

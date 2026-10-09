@@ -72,3 +72,7 @@ Vegetação alta mais espaçada, obstáculos baixos nas margens das trilhas e da
 ## Terreno natural e ambiente
 
 Transições de pixels entre grama, terra e pedra, evitando bordas abruptas. Novos obstáculos baixos de muro, raízes, degraus e cogumelos reduzem a repetição. Água, lanternas e cristais têm movimento ou brilho discretos. Som ambiente de riacho por proximidade no Refúgio e vento na dungeon, respeitando áudio silenciado, pausa e aba oculta. Colisões, caminhos e sistemas de jogo foram preservados.
+
+## Ruínas Ancestrais
+
+O trecho central da dungeon agora tem identidade própria: pátio de pedra com transição para musgo, inscrições no chão, santuário abandonado, estátua quebrada e escombros com relevos. As peças altas usam obstáculos existentes e continuam transparentes quando encobrem personagens. Caminhos, colisões, mobs, HUD e progressão foram preservados.
