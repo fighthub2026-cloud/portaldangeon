@@ -1,0 +1,241 @@
+{
+  "version": 1,
+  "tileSize": [
+    32,
+    16
+  ],
+  "scope": "hub",
+  "lightDirection": "upper-left",
+  "atlases": {
+    "objects": "assets/environment/refuge/objects.png",
+    "terrain": "assets/environment/refuge/terrain.png",
+    "details": "assets/environment/refuge/details.png"
+  },
+  "sprites": {
+    "oak": {
+      "category": "vegetation",
+      "rect": [
+        0,
+        0,
+        0.331,
+        0.548
+      ],
+      "size": [
+        58,
+        83
+      ],
+      "origin": [
+        0.5,
+        1
+      ],
+      "occludes": true
+    },
+    "pine": {
+      "category": "vegetation",
+      "rect": [
+        0.332,
+        0,
+        0.165,
+        0.548
+      ],
+      "size": [
+        36,
+        91
+      ],
+      "origin": [
+        0.5,
+        1
+      ],
+      "occludes": true
+    },
+    "ancient": {
+      "category": "vegetation",
+      "rect": [
+        0.512,
+        0.07,
+        0.245,
+        0.478
+      ],
+      "size": [
+        47,
+        76
+      ],
+      "origin": [
+        0.5,
+        1
+      ],
+      "occludes": true
+    },
+    "boulder": {
+      "category": "rocks",
+      "rect": [
+        0.76,
+        0.278,
+        0.24,
+        0.27
+      ],
+      "size": [
+        29,
+        27
+      ],
+      "origin": [
+        0.5,
+        1
+      ]
+    },
+    "fern": {
+      "category": "vegetation",
+      "rect": [
+        0,
+        0.663,
+        0.264,
+        0.292
+      ],
+      "size": [
+        17,
+        16
+      ],
+      "origin": [
+        0.5,
+        1
+      ]
+    },
+    "log": {
+      "category": "vegetation",
+      "rect": [
+        0.266,
+        0.687,
+        0.25,
+        0.268
+      ],
+      "size": [
+        29,
+        24
+      ],
+      "origin": [
+        0.5,
+        1
+      ]
+    },
+    "column": {
+      "category": "ruins",
+      "rect": [
+        0.519,
+        0.552,
+        0.195,
+        0.405
+      ],
+      "size": [
+        28,
+        47
+      ],
+      "origin": [
+        0.5,
+        1
+      ],
+      "occludes": true
+    },
+    "portal": {
+      "category": "portals",
+      "rect": [
+        0.716,
+        0.549,
+        0.284,
+        0.414
+      ],
+      "size": [
+        51,
+        68
+      ],
+      "origin": [
+        0.5,
+        1
+      ],
+      "occludes": true
+    },
+    "bridge": {
+      "category": "construction",
+      "atlas": "details",
+      "rect": [
+        0.02,
+        0,
+        0.55,
+        0.5
+      ],
+      "size": [
+        35,
+        22
+      ],
+      "origin": [
+        0.5,
+        1
+      ],
+      "flipX": true
+    },
+    "lantern": {
+      "category": "construction",
+      "atlas": "details",
+      "rect": [
+        0.62,
+        0,
+        0.26,
+        0.5
+      ],
+      "size": [
+        18,
+        32
+      ],
+      "origin": [
+        0.5,
+        1
+      ]
+    },
+    "altar": {
+      "category": "construction",
+      "atlas": "details",
+      "rect": [
+        0.03,
+        0.5,
+        0.55,
+        0.5
+      ],
+      "size": [
+        30,
+        21
+      ],
+      "origin": [
+        0.5,
+        1
+      ]
+    },
+    "mushrooms": {
+      "category": "vegetation",
+      "atlas": "details",
+      "rect": [
+        0.62,
+        0.51,
+        0.36,
+        0.49
+      ],
+      "size": [
+        11,
+        12
+      ],
+      "origin": [
+        0.5,
+        1
+      ]
+    }
+  },
+  "terrain": [
+    "grass",
+    "moss",
+    "dryGrass",
+    "dampSoil",
+    "trail",
+    "paving",
+    "leafLitter",
+    "water"
+  ],
+  "collision": "Existing M/solid grid only. Artwork does not add collision."
+}

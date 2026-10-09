@@ -54,3 +54,9 @@ Validação em Chromium: combo, colisões, esquiva, especial, áudio, menu e per
 Primeira área de avaliação do novo acabamento 2D: refúgio ampliado com clareira, fogueira decorativa, trilhas de terra, riacho e duas pontes, banco de descanso e ruínas cobertas de musgo. Árvores também aparecem nos obstáculos internos; copas próximas ao personagem ficam transparentes e as bases continuam visíveis. O terreno recebe folhas e variação de vegetação. A água bloqueia movimento fora das pontes e aparece em azul no minimapa.
 
 As mudanças de desenho concentram-se no refúgio inicial para avaliação do usuário antes de expandir ao restante da floresta. A fogueira, o banco e as ruínas são elementos visuais. Validação: acesso ao portal e às duas pontes, caminhos sem obstáculos, colisão com água, renderização desktop e celular e regressão de combo, esquiva, especial, menu e perfil.
+
+## Piloto de sprites do Refúgio
+
+A v5 agora usa três atlas PNG transparentes, com 12 sprites ambientais e oito tipos de terreno: árvores, rochas, vegetação, ruínas, portal, pontes, lanternas, altar e cogumelos. A integração aplica origens individuais, profundidade, transparência quando árvores encobrem o personagem e cache de terrenos. Todos os assets continuam incorporados ao HTML offline. A dungeon e os sistemas de jogo foram preservados.
+
+Veja [a documentação do piloto](docs/REFUGIO_VISUAL.md) para editar o catálogo, incorporar os PNGs e reproduzir a validação. O Refúgio é a área de avaliação antes da evolução da dungeon.
