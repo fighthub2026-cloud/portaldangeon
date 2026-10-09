@@ -1,12 +1,12 @@
 # Portais — RPG em HTML
 
-A versão mais recente é **Portais_Floresta_v4.html**.
+A versão mais recente é **Portais_Floresta_v5.html**.
 
 ## Baixar e jogar
 
 1. No GitHub, clique em **Code → Download ZIP**.
 2. Extraia o arquivo ZIP.
-3. Abra **Portais_Floresta_v4.html** no navegador.
+3. Abra **Portais_Floresta_v5.html** no navegador.
 
 O jogo funciona offline: imagens e sons estão incorporados ou são gerados pelo próprio HTML. O progresso fica salvo neste navegador. Use **Novo jogo** no menu para reiniciar, com confirmação.
 
@@ -26,3 +26,7 @@ No celular, use os botões de toque. Os sons começam após uma interação com 
 ## Novidades da v4
 
 Combo de três golpes com finalizador mais forte, sons de lâmina e impacto, faíscas e pausa breve nos acertos. Mobs comuns recuam e ficam brevemente atordoados. Colisões, menu, salvamento e Corte Cruzado da v3 foram mantidos.
+
+## Novidades da v5
+
+Jogo ocupa toda a janela, com retrato circular e barras compactas sobre o cenário. Novas árvores, pedras e troncos detalhados; os obstáculos mantêm bases visíveis. Inimigos mostram as áreas de perigo antes dos ataques e a recuperação depois deles. HUD com ícones, recargas visuais e vida e estado do inimigo; controles de toque também indicam recarga.
