@@ -2,7 +2,7 @@
 
 ## Three.js 0.158.0
 
-Bundled in Portais_3D_v7.html, verified against the npm SHA-512 package integrity.
+Bundled in Portais_3D_v7.html and Portais_3D_v8.html, verified against the npm SHA-512 package integrity.
 
 The MIT License
 

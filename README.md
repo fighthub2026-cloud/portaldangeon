@@ -1,12 +1,12 @@
 # Portais — RPG em HTML
 
-A versão mais recente é **Portais_3D_v7.html**.
+A versão mais recente é **Portais_3D_v8.html**.
 
 ## Baixar e jogar
 
 1. No GitHub, clique em **Code → Download ZIP**.
 2. Extraia o arquivo ZIP.
-3. Abra **Portais_3D_v7.html** no navegador.
+3. Abra **Portais_3D_v8.html** no navegador.
 
 O jogo funciona offline: imagens e sons estão incorporados ou são gerados pelo próprio HTML. O progresso fica salvo neste navegador. Use **Novo jogo** no menu para reiniciar, com confirmação.
 
@@ -40,3 +40,11 @@ Sprites novos em alta resolução para goblins, conjuradores e o Guardião da Fe
 Motor WebGL com Three.js incorporado ao HTML: cenário, caçador, mobs e chefe são malhas 3D. Câmera isométrica, iluminação e sombras, retrato do modelo, pernas e braços articulados com transições de movimento, portais com shader animado e efeitos tridimensionais. O botão direito permite andar pelo mapa com cálculo de rota; WASD e controles de toque continuam disponíveis.
 
 Esta versão estabelece uma base 3D estilizada com modelos procedurais. A referência de League of Legends orienta a câmera e a leitura de combate; os modelos ainda têm um acabamento simples. O navegador precisa oferecer suporte a WebGL. Não há dependências de rede durante o jogo.
+
+## Novidades da v8 — identidade dos personagens
+
+Modelos 3D próprios com casaco escuro, cabelo e duas lâminas no caçador; goblin com orelhas pontudas e equipamento de couro; mago de capuz, vestes bordadas e cajado; guardião com placas de pedra violeta e chifres curvos. Pernas, joelhos, braços e cotovelos continuam articulados. Texturas pintadas de tecido, rosto e pedra dão acabamento aos materiais.
+
+O cenário usa texturas de grama e terra incorporadas, troncos com casca, raízes, galhos e copas feitas de folhas instanciadas, além de pedras irregulares. Os modelos são uma evolução artesanal da base procedural, ainda não equivalentes a personagens produzidos para um jogo comercial como League of Legends. Combate, colisões, salvamento, avisos apenas do chefão e controles existentes foram preservados.
+
+Validação em Chromium: combo, colisões, esquiva, especial, áudio, menu e perfil; seleção do chão e rota por clique; animação das articulações; reconstrução e descarte de geometrias nas trocas de mapa; layout desktop e celular. Sem erros de JavaScript ou shader e sem requisições externas durante o jogo.
