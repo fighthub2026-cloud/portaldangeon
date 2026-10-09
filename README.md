@@ -68,3 +68,7 @@ A Floresta da Fenda agora usa o catálogo e os terrenos do Refúgio, com quatro 
 ## Visibilidade do mapa
 
 Vegetação alta mais espaçada, obstáculos baixos nas margens das trilhas e da arena, e menos decoração perto dos personagens. Objetos que encobrem o jogador ou mobs ficam transparentes na parte superior, mantendo a base sólida visível. Colisões e jogabilidade continuam iguais.
+
+## Terreno natural e ambiente
+
+Transições de pixels entre grama, terra e pedra, evitando bordas abruptas. Novos obstáculos baixos de muro, raízes, degraus e cogumelos reduzem a repetição. Água, lanternas e cristais têm movimento ou brilho discretos. Som ambiente de riacho por proximidade no Refúgio e vento na dungeon, respeitando áudio silenciado, pausa e aba oculta. Colisões, caminhos e sistemas de jogo foram preservados.

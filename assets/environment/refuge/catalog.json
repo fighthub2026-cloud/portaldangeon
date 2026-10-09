@@ -10,7 +10,8 @@
     "objects": "assets/environment/refuge/objects.png",
     "terrain": "assets/environment/refuge/terrain.png",
     "details": "assets/environment/refuge/details.png",
-    "dungeon": "assets/environment/dungeon/objects.png"
+    "dungeon": "assets/environment/dungeon/objects.png",
+    "low": "assets/environment/shared/low-obstacles.png"
   },
   "sprites": {
     "oak": {
@@ -302,6 +303,78 @@
         1
       ],
       "occludes": false
+    },
+    "mossWall": {
+      "category": "low-obstacles",
+      "atlas": "low",
+      "rect": [
+        0,
+        0,
+        0.52,
+        0.49
+      ],
+      "size": [
+        29,
+        19
+      ],
+      "origin": [
+        0.5,
+        1
+      ]
+    },
+    "rootStump": {
+      "category": "low-obstacles",
+      "atlas": "low",
+      "rect": [
+        0.525,
+        0,
+        0.475,
+        0.49
+      ],
+      "size": [
+        28,
+        19
+      ],
+      "origin": [
+        0.5,
+        1
+      ]
+    },
+    "ruinSteps": {
+      "category": "low-obstacles",
+      "atlas": "low",
+      "rect": [
+        0,
+        0.5,
+        0.54,
+        0.5
+      ],
+      "size": [
+        30,
+        17
+      ],
+      "origin": [
+        0.5,
+        1
+      ]
+    },
+    "mushroomRock": {
+      "category": "low-obstacles",
+      "atlas": "low",
+      "rect": [
+        0.55,
+        0.52,
+        0.45,
+        0.48
+      ],
+      "size": [
+        27,
+        18
+      ],
+      "origin": [
+        0.5,
+        1
+      ]
     }
   },
   "terrain": [

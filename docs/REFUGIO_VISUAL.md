@@ -28,13 +28,13 @@ Quando os PNGs ainda não carregaram, o cenário anterior continua disponível. 
 
 ## Validação
 
-`tests/refuge-art.cjs` usa Playwright e Chromium. Requer `playwright` disponível no Node e Chromium em `/usr/bin/chromium`. Executar `node tests/refuge-art.cjs`. O teste compara com a base no commit `cf31885`, verifica igualdade do código anterior à seção de desenho, mudança visual do Refúgio, preservação do código funcional e visibilidade de mobs atrás de objetos, carregamento dos atlas, cache estável, renderização desktop e celular, ausência de erros e de requisições externas. Capturas ficam em `/tmp/portais-refuge-pilot*.png`.
+`tests/refuge-art.cjs` usa Playwright e Chromium. Requer `playwright` disponível no Node e Chromium em `/usr/bin/chromium`. Executar `node tests/refuge-art.cjs`. O teste compara com a base no commit `6d07fb6`, verifica igualdade do código anterior à seção de desenho, mudança visual do Refúgio, preservação do código funcional e visibilidade de mobs atrás de objetos, carregamento dos atlas, cache estável, renderização desktop e celular, ausência de erros e de requisições externas. Capturas ficam em `/tmp/portais-refuge-pilot*.png`.
 
 Também foram executados os testes existentes de combo, esquiva, colisão com mobs, linha de visão, especial, áudio, menu, perfil e acesso às duas pontes e ao portal. O ensaio de 60 quadros no Chromium desta máquina registrou cerca de 27 ms por quadro em 1280 × 800; não é uma garantia de desempenho em celulares reais. Os PNGs incorporados aumentam o tamanho do HTML offline.
 
 ## Expansão à Floresta da Fenda
 
-O mesmo catálogo agora contém 16 objetos e oito terrenos. A entrada usa grama e trilhas; a região central usa musgo escuro; trechos inferiores recebem folhas caídas; a arena do chefe usa pavimentação antiga. Cristais, troncos e árvores retorcidas substituem os obstáculos simples exclusivamente no desenho. Um arco monumental ocupa uma célula já sólida junto à arena. Névoa discreta aparece em três regiões do mapa, sem novos estados de jogo. Portais de ida e volta e lanternas usam o mesmo padrão de sprites.
+O mesmo catálogo agora contém 20 objetos e oito terrenos. A entrada usa grama e trilhas; a região central usa musgo escuro; trechos inferiores recebem folhas caídas; a arena do chefe usa pavimentação antiga. Cristais, troncos e árvores retorcidas substituem os obstáculos simples exclusivamente no desenho. Um arco monumental ocupa uma célula já sólida junto à arena. Névoa discreta aparece em três regiões do mapa, sem novos estados de jogo. Portais de ida e volta e lanternas usam o mesmo padrão de sprites.
 
 Não há árvores decorativas sólidas no meio dos caminhos. As decorações baixas evitam trilhas e o piso da arena. A grade de colisões, coordenadas do portal e posições de todos os inimigos e do chefe são exatamente as anteriores.
 
@@ -49,3 +49,17 @@ O banco e a fogueira do Refúgio continuam com o desenho anterior. Personagens e
 A detecção de oclusão considera a área desenhada de todos os personagens vivos, incluindo goblins, magos e o chefe, e respeita a ordem de profundidade. Quando um objeto encobre um ator, sua parte superior usa 13% de opacidade; os últimos dez pixels da base continuam opacos. Isso mantém a leitura do obstáculo sem esconder o combate. Decorações baixas são menos frequentes e evitam a proximidade imediata dos atores.
 
 O teste valida um mob atrás e à frente da árvore e a baixa densidade de árvores altas nas células sólidas visíveis. Nenhuma célula, colisão ou posição funcional foi alterada.
+
+## Terrenos e variedade natural
+
+As bordas entre terrenos diferentes agora usam mistura de pixels das texturas vizinhas, com padrão determinístico e sem filtro de borrão. Cada combinação de terreno e vizinhança é preparada uma única vez e reutilizada em cache. A base do losango é preenchida para evitar pequenos buracos de transparência nos encaixes. A água mantém sua borda e colisão existentes.
+
+O atlas `assets/environment/shared/low-obstacles.png` contém muro com musgo, toco com raízes, degraus em ruínas e rochas com cogumelos. Todos ocupam células já sólidas, usam silhuetas baixas e participam da transparência para atores. O setor sudoeste da dungeon recebe mais cogumelos baixos fora das trilhas; a região do chefe mantém seu piso antigo e área livre de decorações.
+
+Água recebe ondulações discretas; lanternas variam suavemente a intensidade; cristais e rochas com cogumelos têm um brilho fraco. Essas animações não mudam colisões ou estados de jogo.
+
+## Som ambiente
+
+Dois canais Web Audio reutilizáveis sintetizam vento e água com ruído filtrado. O áudio usa o contexto já existente, após interação do usuário. O volume do riacho depende da proximidade no Refúgio; a dungeon recebe vento mais grave. O botão de áudio existente silencia tudo. Pausa e aba oculta também silenciam o ambiente, com transição gradual de volume. Não há arquivos de áudio externos ou alterações no salvamento.
+
+Validação adicional: presença de água perto do riacho, vento na dungeon, silêncio na pausa e ao silenciar áudio. Código funcional anterior à seção de desenho permanece igual à versão anterior.
