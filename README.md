@@ -1,12 +1,12 @@
 # Portais — RPG em HTML
 
-A versão mais recente é **Portais_3D_v8.html**.
+A base ativa escolhida pelo usuário é **Portais_Floresta_v5.html**. As próximas melhorias partirão desta versão 2D; as versões posteriores ficam como histórico.
 
 ## Baixar e jogar
 
 1. No GitHub, clique em **Code → Download ZIP**.
 2. Extraia o arquivo ZIP.
-3. Abra **Portais_3D_v8.html** no navegador.
+3. Abra **Portais_Floresta_v5.html** no navegador.
 
 O jogo funciona offline: imagens e sons estão incorporados ou são gerados pelo próprio HTML. O progresso fica salvo neste navegador. Use **Novo jogo** no menu para reiniciar, com confirmação.
 
@@ -48,3 +48,9 @@ Modelos 3D próprios com casaco escuro, cabelo e duas lâminas no caçador; gobl
 O cenário usa texturas de grama e terra incorporadas, troncos com casca, raízes, galhos e copas feitas de folhas instanciadas, além de pedras irregulares. Os modelos são uma evolução artesanal da base procedural, ainda não equivalentes a personagens produzidos para um jogo comercial como League of Legends. Combate, colisões, salvamento, avisos apenas do chefão e controles existentes foram preservados.
 
 Validação em Chromium: combo, colisões, esquiva, especial, áudio, menu e perfil; seleção do chão e rota por clique; animação das articulações; reconstrução e descarte de geometrias nas trocas de mapa; layout desktop e celular. Sem erros de JavaScript ou shader e sem requisições externas durante o jogo.
+
+## Refúgio renovado na base v5
+
+Primeira área de avaliação do novo acabamento 2D: refúgio ampliado com clareira, fogueira decorativa, trilhas de terra, riacho e duas pontes, banco de descanso e ruínas cobertas de musgo. Árvores também aparecem nos obstáculos internos; copas próximas ao personagem ficam transparentes e as bases continuam visíveis. O terreno recebe folhas e variação de vegetação. A água bloqueia movimento fora das pontes e aparece em azul no minimapa.
+
+As mudanças de desenho concentram-se no refúgio inicial para avaliação do usuário antes de expandir ao restante da floresta. A fogueira, o banco e as ruínas são elementos visuais. Validação: acesso ao portal e às duas pontes, caminhos sem obstáculos, colisão com água, renderização desktop e celular e regressão de combo, esquiva, especial, menu e perfil.

@@ -79,7 +79,7 @@ function fit(){const scale=Math.min(innerWidth/480,innerHeight/270);W=Math.round
 addEventListener('resize',fit);fit();
 
 const MAPS={
- hub:{name:'Refúgio da Floresta',tint:'130,70,255',spawn:[8,6],rows:["################","#.......P......#","#.L..........L.#","#..............#","#...##.....##..#","#...#.......#..#","#..............#","#......##......#","#..............#","#.L..........L.#","#..............#","################"]},
+ hub:{name:'Refúgio da Floresta',tint:'130,70,255',spawn:[8,6],rows:["####################","##...............###","#...............L..#","#..L......P........#","#..................#","#..##..........##..#","#..#............#..#","#..................#","#..................#","#..#...............#","#..##..............#","#..................#","#..L............L..#","#..............##..#","##..............####","####################"]},
  dungeon:{name:'Floresta da Fenda (Grau E)',tint:'60,140,255',spawn:[5.5,5],boss:[31,20.5],zone:[27,15,34,25],
   enemies:[[17.5,12.5,"g"],[24.5,12.5,"g"],[21.5,4.5,"m"],[4.5,15.5,"g"],[9.5,20.5,"g"],[10.5,14.5,"m"],[31.5,7.5,"g"],[33.5,8.5,"m"],[16.5,20.5,"g"],[22.5,18.5,"g"],[19.5,17.5,"g"],[24.5,20.5,"m"]],
   rows:["####################################", "####################################", "##...R....#####............#########", "##.L....L..####.L........L.##......#", "##........#####............##.L....#", "##................#....#...........#", "##.............................#...#", "##........#####.....##.....##......#", "##........#####............##......#", "#####..########............##....L.#", "#####..########...#....#...##......#", "#####..########............####..###", "#####..########.....##.....####..###", "##..........###.L........L.####..###", "##.L........###............####..###", "##..........#######..######........#", "##...#......#######..######.L......#", "##........................#........#", "##.............L..........#..#..#..#", "##......#...##...#....#............#", "##........L.##.....................#", "##..........##..........L.#........#", "##############............#..#..#..#", "###########################........#", "###########################......L.#", "###########################........#", "####################################", "####################################"]}
@@ -92,12 +92,14 @@ try{audioMuted=localStorage.getItem('portais_audio_muted')==='1'}catch{}
 
 let atkDX=.707,atkDY=.707,specialDX=.707,specialDY=.707,attackQueued=false,meleeHits=new Set(),specialPhase=0;
 let M,ROWS,COLS,lights=[],ports=[],cur,ui=false,fade=0,fadeDir=0,pending=null,near=null,enemies=[],dmgs=[],hp=100,MAXHP=100,atkT=0,hitDone=true,dodgeT=0,dodgeCD=0,inv=0,dead=false,fdx=.707,fdy=.707,dvx=0,dvy=0,projs=[],bossOn=false,banner=null,cleared=false,lvl=1,xp=0,pts=0,att={f:0,v:0,a:0},eq={arma:null,armadura:null,acessorio:null},bag=[],loot=[],abCD=0,abT=0,SPD=1,dust=[],shakeT=0;
-function loadMap(id,sp){cur=id;const m=MAPS[id];M=m.rows.map(r=>r.split(''));ROWS=M.length;COLS=M[0].length;lights=[];ports=[];
+function loadMap(id,sp){cur=id;const m=MAPS[id];M=m.rows.map(r=>r.split(''));ROWS=M.length;COLS=M[0].length;if(id==='hub')for(let x=5;x<=17;x++)if(x!==6&&x!==13)M[9][x]='W';lights=[];ports=[];
  for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){const c=M[y][x];if(c==='L')lights.push([x,y]);if(c==='P'||c==='R')ports.push([x,y,c])}
  px=(sp||m.spawn)[0];py=(sp||m.spawn)[1];
- enemies=(m.enemies||[]).map(([x,y,t])=>({t,x,y,hp:t==='m'?25:40,max:t==='m'?25:40,cd:1,wind:0,fl:0}));dmgs=[];projs=[];loot=[];dust=[];bossOn=false;banner=null;attackQueued=false;meleeHits.clear();atkT=abT=0;comboStep=0;comboWindow=hitPause=0;impactMarks=[];focusedEnemy=null;targetTime=0;buildForestTrails()}
+ enemies=(m.enemies||[]).map(([x,y,t])=>({t,x,y,hp:t==='m'?25:40,max:t==='m'?25:40,cd:1,wind:0,fl:0}));dmgs=[];projs=[];loot=[];dust=[];bossOn=false;banner=null;attackQueued=false;meleeHits.clear();atkT=abT=0;comboStep=0;comboWindow=hitPause=0;impactMarks=[];focusedEnemy=null;targetTime=0;buildForestTrails();if(cur==='hub')buildRefugeTrails()}
 function buildForestTrails(){trailCells.clear();const start=[Math.floor(px),Math.floor(py)],key=(x,y)=>x+','+y,walk=(x,y)=>M[y]&&M[y][x]!==undefined&&!['#','P','R','L'].includes(M[y][x]);const queue=[start],prev=new Map([[key(...start),null]]);for(let i=0;i<queue.length;i++){const [x,y]=queue[i];for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1]]){const nx=x+dx,ny=y+dy,k=key(nx,ny);if(walk(nx,ny)&&!prev.has(k)){prev.set(k,key(x,y));queue.push([nx,ny])}}}const targets=(MAPS[cur].enemies||[]).map(([x,y])=>key(Math.floor(x),Math.floor(y)));if(MAPS[cur].boss)targets.push(key(...MAPS[cur].boss.map(Math.floor)));for(const [x,y]of ports){const adjacent=[[x,y+1],[x+1,y],[x-1,y],[x,y-1]].map(p=>key(...p)).find(k=>prev.has(k));if(adjacent)targets.push(adjacent)}for(let k of targets){while(k&&prev.has(k)){trailCells.add(k);k=prev.get(k)}}}
-const solid=(x,y)=>{const t=M[y]&&M[y][x];return t===undefined||t==='#'||t==='P'||t==='R'||t==='L'};
+function buildRefugeTrails(){trailCells.clear();const line=(points)=>{for(let i=1;i<points.length;i++){let [x,y]=points[i-1];const [tx,ty]=points[i];while(x!==tx||y!==ty){if(!solid(x,y))trailCells.add(x+','+y);if(x!==tx)x+=Math.sign(tx-x);else y+=Math.sign(ty-y)}if(!solid(tx,ty))trailCells.add(tx+','+ty)}};line([[8,6],[8,8],[11,8],[11,5],[10,5],[10,4]]);line([[8,8],[6,8],[6,11],[4,11],[4,12]]);line([[11,8],[13,8],[13,11],[15,11],[15,12]]);for(let y=5;y<=7;y++)for(let x=7;x<=9;x++)if(!solid(x,y))trailCells.add(x+','+y)}
+function refugeWater(x,y){return cur==='hub'&&y===9&&x>=5&&x<=17&&x!==6&&x!==13}
+const solid=(x,y)=>{const t=M[y]&&M[y][x];return t===undefined||t==='#'||t==='W'||t==='P'||t==='R'||t==='L'};
 
 /* ---- sprites placeholder (procedurais) ---- */
 function mk(w,h,f){const c=document.createElement('canvas');c.width=w;c.height=h;f(c.getContext('2d'));return c}
@@ -425,7 +427,7 @@ function drawLamp(cx,cy,t){
 function shadow(x,y,rx,ry,a=.5){g.save();g.translate(x,y);g.scale(1,ry/rx);const q=g.createRadialGradient(0,0,0,0,0,rx);q.addColorStop(0,`rgba(0,0,0,${a})`);q.addColorStop(.6,`rgba(0,0,0,${a*.6})`);q.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=q;g.fillRect(-rx,-rx,rx*2,rx*2);g.restore()}
 // Sprites locais: chão, árvores, raízes, cogumelos e cristais.
 const grassTiles=Array.from({length:8},(_,i)=>mk(32,16,c=>{dia(c,16,8,['#385e48','#3f634b','#42684d','#365d46'][i%4]);c.save();c.beginPath();c.moveTo(0,8);c.lineTo(16,0);c.lineTo(32,8);c.lineTo(16,16);c.closePath();c.clip();for(let k=0;k<65;k++){c.fillStyle=['#547a58','#60805c','#304f40','#73906a'][k%4];c.fillRect(rnd()*32|0,rnd()*16|0,1+(rnd()*2|0),1)}c.restore()}));
-const forestPath=mk(32,16,c=>{dia(c,16,8,'#788578');c.save();c.beginPath();c.moveTo(0,8);c.lineTo(16,0);c.lineTo(32,8);c.lineTo(16,16);c.closePath();c.clip();for(let i=0;i<45;i++){c.fillStyle=i%3?'#889187':'#69766a';c.fillRect(rnd()*32|0,rnd()*16|0,2,1)}c.restore()});
+const forestPath=mk(32,16,c=>{dia(c,16,8,'#887453');c.save();c.beginPath();c.moveTo(0,8);c.lineTo(16,0);c.lineTo(32,8);c.lineTo(16,16);c.closePath();c.clip();for(let i=0;i<45;i++){c.fillStyle=i%3?'#9c8862':'#6c614b';c.fillRect(rnd()*32|0,rnd()*16|0,2,1)}c.restore()});
 const treeSprites=Array.from({length:6},(_,variant)=>mk(68,86,c=>{
  const p=(pts,col)=>{c.fillStyle=col;c.beginPath();pts.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();c.fill()};
  p([[21,84],[29,66],[29,38],[37,37],[39,66],[51,82],[39,77],[35,83],[31,78]],'#0a171e');
@@ -447,12 +449,14 @@ function drawForestProp(x,y,sx,sy,t){
  g.drawImage(forestObstacle,sx-16,sy-16);g.strokeStyle='#a2ba8066';g.lineWidth=1;g.beginPath();g.moveTo(sx-16,sy-8);g.lineTo(sx,sy-16);g.lineTo(sx+16,sy-8);g.stroke();
  g.fillStyle='#47734c';g.fillRect(sx-8,sy-12,5,2);g.fillRect(sx+4,sy-9,6,2);
  const outer=x===0||y===0||x===COLS-1||y===ROWS-1;
- if(outer&&(x+y)%4===0){const img=treeSprites[(x+y)%6];const footY=sy-8;g.save();if(Math.hypot(x+.5-px,y+.5-py)<3.8)g.globalAlpha=.18;if(!drawForestArt((x+y)%3,sx,footY+3,42,54))g.drawImage(img,sx-19,footY-48,38,48);g.restore();}
+ if((outer&&(x+y)%3===0)||(cur==='hub'&&!outer&&(x+y)%2===0)){const img=treeSprites[(x+y)%6];const footY=sy-8;g.save();if(Math.hypot(x+.5-px,y+.5-py)<3.8)g.globalAlpha=.18;if(!drawForestArt((x+y)%3,sx,footY+3,42,54))g.drawImage(img,sx-19,footY-48,38,48);g.restore();}
  else if(!outer){const index=(x*7+y)%5===0?4:5;drawForestArt(index,sx,sy-5,24,22)}
 }
+function drawRefugeLandmark(x,y,sx,sy,t){g.save();if(x===4&&y===11){shadow(sx,sy,16,5,.35);g.fillStyle='#59493b';g.fillRect(sx-13,sy-9,26,8);g.fillStyle='#af9264';for(let i=0;i<3;i++)g.fillRect(sx-12,sy-9+i*3,24,1);g.fillStyle='#342d27';g.fillRect(sx-10,sy-3,3,5);g.fillRect(sx+7,sy-3,3,5)}else if(x===15&&y===11){shadow(sx,sy,15,5,.35);g.fillStyle='#425448';g.fillRect(sx-13,sy-8,26,8);g.fillStyle='#a4af8d';g.fillRect(sx-11,sy-25,7,21);g.fillRect(sx+5,sy-18,6,15);g.fillStyle='#657960';g.fillRect(sx-11,sy-25,7,3);g.fillRect(sx+5,sy-18,6,3);g.fillStyle='#375f40';g.fillRect(sx-10,sy-15,3,11);g.fillRect(sx-4,sy-3,12,2)}else if(x===8&&y===6){shadow(sx,sy,18,5,.25);g.strokeStyle='#b5a77788';g.beginPath();g.ellipse(sx,sy,17,7,0,0,Math.PI*2);g.stroke();g.fillStyle='#5d4835';g.fillRect(sx-3,sy-6,7,5);g.fillStyle='#dda860';g.fillRect(sx-2,sy-11+Math.sin(t*5),4,6);g.fillStyle='#fff0b0';g.fillRect(sx,sy-8,2,3)}g.restore()}
 function drawGroundDetail(x,y,sx,sy){const n=(x*43+y*17)%19;if(n<4){g.fillStyle='#6a8d5d';for(let k=0;k<3;k++)g.fillRect(sx-5+k*4,sy-2-(k%2)*2,1,3)}else if(n===5||n===11){g.fillStyle='#abb58d';g.fillRect(sx-2,sy-3,1,4);g.fillStyle='#654888';g.fillRect(sx-5,sy-5,7,3);g.fillStyle='#bd8cd8';g.fillRect(sx-3,sy-6,3,2)}else if(n===7){g.fillStyle='#263e35';g.fillRect(sx-4,sy-2,8,4);g.fillStyle='#6c7b66';g.fillRect(sx-3,sy-3,5,2)}}
 
 function drawFloor(x,y,sx,sy){const path=trailCells.has(x+','+y);g.drawImage(path?forestPath:grassTiles[(x*7+y*3+((x*y)>>1))%grassTiles.length],sx-16,sy-8);if(M[y][x]==='.'&&!path&&(x*13+y*7)%13===0)drawGroundDetail(x,y,sx,sy);
+  if(cur==='hub'){g.save();g.beginPath();g.moveTo(sx-16,sy);g.lineTo(sx,sy-8);g.lineTo(sx+16,sy);g.lineTo(sx,sy+8);g.closePath();g.clip();if(refugeWater(x,y)){g.fillStyle='#315f60';g.fillRect(sx-16,sy-8,32,16);g.strokeStyle='#77b8a477';for(let i=0;i<3;i++){g.beginPath();g.moveTo(sx-13+i*5,sy-3+i*3);g.lineTo(sx-5+i*5,sy-1+i*3);g.stroke()}}else if(y===9&&(x===6||x===13)){g.fillStyle='#715d45';g.fillRect(sx-16,sy-8,32,16);g.strokeStyle='#bd9b6c';for(let i=-14;i<17;i+=4){g.beginPath();g.moveTo(sx+i,sy-8);g.lineTo(sx+i+13,sy+8);g.stroke()}}else if(!path){const n=(x*37+y*19)%11;if(n<4){g.fillStyle=['#78894d66','#a9985266','#49674488','#2c534c77'][n];for(let i=0;i<5;i++)g.fillRect(sx-13+((x*3+i*7)%25),sy-5+((y+i*3)%10),3,1)}}g.restore()}
   const w=(a,b)=>M[b]&&M[b][a]==='#';g.fillStyle='rgba(6,4,16,.34)';
   if(w(x,y-1)){g.beginPath();g.moveTo(sx,sy-8);g.lineTo(sx+16,sy);g.lineTo(sx+9,sy+3);g.lineTo(sx,sy-3);g.closePath();g.fill()}
   if(w(x-1,y)){g.beginPath();g.moveTo(sx,sy-8);g.lineTo(sx-16,sy);g.lineTo(sx-9,sy+3);g.lineTo(sx,sy-3);g.closePath();g.fill()}}
@@ -520,6 +524,7 @@ function frame(t){
     if(c==='#'&&!hid(x,y)){const hh=(x==0||y==0||x==COLS-1||y==ROWS-1)?8:18;D.push([x+y+1,()=>drawForestProp(x,y,sx,sy,t)])}
     if(c==='P'||c==='R')D.push([x+y+1,()=>drawPortal(sx,sy,t,c==='P'?'Portal Grau E':'Voltar ao Refúgio',c==='P'?['#e9d6ff','#a65bff','#5a2bd6']:['#d6f0ff','#5bb4ff','#2b5ad6'])]);
     if(c==='L')D.push([x+y+1,()=>{drawCrystal(sx,sy);drawLamp(sx,sy,t)}])}
+  if(cur==='hub')for(const [x,y]of [[4,11],[15,11],[8,6]]){const [sx,sy]=S(x,y);D.push([x+y+1,()=>drawRefugeLandmark(x,y,sx,sy,t)])}
   loot.forEach(l=>D.push([l.x+l.y,()=>{const sx=Math.round(ox+(l.x-l.y)*16),gy0=Math.round(oy+(l.x+l.y)*8),sy=Math.round(gy0-7-Math.abs(Math.sin(t*3+l.x))*3);shadow(sx,gy0,6,2.6,.45);
     const p=(s,c)=>{g.fillStyle=c;g.beginPath();g.moveTo(sx,sy-5*s);g.lineTo(sx+4*s,sy);g.lineTo(sx,sy+5*s);g.lineTo(sx-4*s,sy);g.closePath();g.fill()};
     p(1.35,'#0a0814');p(1,RC[l.item.r]);g.fillStyle='rgba(255,255,255,.45)';g.beginPath();g.moveTo(sx,sy-5);g.lineTo(sx,sy+5);g.lineTo(sx-4,sy);g.closePath();g.fill();g.fillStyle='#fff';g.fillRect(sx-1,sy-3,1,1);
@@ -552,7 +557,7 @@ function frame(t){
 
   // Minimap container, legend-free to keep the playfield clear.
   {const k=Math.max(2,Math.floor(68/Math.max(COLS,ROWS))),mw=COLS*k,mh=ROWS*k,mx=W-mw-10,my=Math.ceil(100*H/innerHeight);panel(mx-4,my-4,mw+8,mh+8);label('MAPA',mx,my-1,'#bdb0f4','bold 5px sans-serif');
-    for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){const c=M[y][x];g.fillStyle=c==='#'?'#34533c':c==='P'||c==='R'?'#b58aff':c==='L'?'#d7a76a':'#8e9b7b';g.fillRect(mx+x*k,my+y*k,k,k)}
+    for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){const c=M[y][x];g.fillStyle=c==='#'?'#34533c':c==='W'?'#478d91':c==='P'||c==='R'?'#b58aff':c==='L'?'#d7a76a':'#8e9b7b';g.fillRect(mx+x*k,my+y*k,k,k)}
     loot.forEach(l=>{g.fillStyle=RC[l.item.r];g.fillRect(Math.round(mx+l.x*k)-1,Math.round(my+l.y*k)-1,2,2)});
     enemies.forEach(e=>{const z=e.t==='b'?4:2;g.fillStyle=e.t==='b'?'#ff526e':'#ff9a6b';g.fillRect(Math.round(mx+e.x*k-z/2),Math.round(my+e.y*k-z/2),z,z)});
     g.fillStyle='#8ef0ce';g.fillRect(Math.round(mx+px*k)-1,Math.round(my+py*k)-1,3,3)}
