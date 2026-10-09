@@ -64,3 +64,7 @@ Veja [a documentação do piloto](docs/REFUGIO_VISUAL.md) para editar o catálog
 ## Mesmo padrão em todos os mapas
 
 A Floresta da Fenda agora usa o catálogo e os terrenos do Refúgio, com quatro sprites adicionais de árvores retorcidas, cristais, ruínas monumentais e troncos com cogumelos. Entrada, mata central e arena do chefe têm terrenos distintos; a névoa é localizada e os portais de ida e volta compartilham o acabamento. Os mapas e sistemas de jogo permanecem intactos. O Refúgio conserva o resultado do piloto.
+
+## Visibilidade do mapa
+
+Vegetação alta mais espaçada, obstáculos baixos nas margens das trilhas e da arena, e menos decoração perto dos personagens. Objetos que encobrem o jogador ou mobs ficam transparentes na parte superior, mantendo a base sólida visível. Colisões e jogabilidade continuam iguais.

@@ -2,7 +2,7 @@
 
 ## Escopo e preservação
 
-HTML5 Canvas 2D, grade isométrica 32 × 16. Não há migração de engine. Após avaliação do piloto, o usuário autorizou aplicar o mesmo padrão aos mapas `hub` e `dungeon`. Mapas, colisões, água, portais, posições dos inimigos, movimentação, combate, IA, progressão, inventário, HUD e salvamento mantêm o código anterior. O Refúgio preserva o desenho do piloto, e a dungeon recebe vegetação retorcida, cristais e ruínas.
+HTML5 Canvas 2D, grade isométrica 32 × 16. Não há migração de engine. Após avaliação do piloto, o usuário autorizou aplicar o mesmo padrão aos mapas `hub` e `dungeon`. Mapas, colisões, água, portais, posições dos inimigos, movimentação, combate, IA, progressão, inventário, HUD e salvamento mantêm o código anterior. Os dois mapas usam o catálogo, e a dungeon recebe vegetação retorcida, cristais e ruínas.
 
 ## Arquivos
 
@@ -28,7 +28,7 @@ Quando os PNGs ainda não carregaram, o cenário anterior continua disponível. 
 
 ## Validação
 
-`tests/refuge-art.cjs` usa Playwright e Chromium. Requer `playwright` disponível no Node e Chromium em `/usr/bin/chromium`. Executar `node tests/refuge-art.cjs`. O teste compara com a base no commit `cc57e89`, verifica igualdade do código anterior à seção de desenho, igualdade dos pixels do Refúgio, carregamento dos atlas, cache estável, renderização desktop e celular, ausência de erros e de requisições externas. Capturas ficam em `/tmp/portais-refuge-pilot*.png`.
+`tests/refuge-art.cjs` usa Playwright e Chromium. Requer `playwright` disponível no Node e Chromium em `/usr/bin/chromium`. Executar `node tests/refuge-art.cjs`. O teste compara com a base no commit `cf31885`, verifica igualdade do código anterior à seção de desenho, mudança visual do Refúgio, preservação do código funcional e visibilidade de mobs atrás de objetos, carregamento dos atlas, cache estável, renderização desktop e celular, ausência de erros e de requisições externas. Capturas ficam em `/tmp/portais-refuge-pilot*.png`.
 
 Também foram executados os testes existentes de combo, esquiva, colisão com mobs, linha de visão, especial, áudio, menu, perfil e acesso às duas pontes e ao portal. O ensaio de 60 quadros no Chromium desta máquina registrou cerca de 27 ms por quadro em 1280 × 800; não é uma garantia de desempenho em celulares reais. Os PNGs incorporados aumentam o tamanho do HTML offline.
 
@@ -38,6 +38,14 @@ O mesmo catálogo agora contém 16 objetos e oito terrenos. A entrada usa grama 
 
 Não há árvores decorativas sólidas no meio dos caminhos. As decorações baixas evitam trilhas e o piso da arena. A grade de colisões, coordenadas do portal e posições de todos os inimigos e do chefe são exatamente as anteriores.
 
-Validação atual: código funcional inalterado; pixels do Refúgio iguais à versão piloto; capturas da entrada, região central e chefe na dungeon; desktop/celular; carregamento sem requisições externas; cache estável após trocas entre os mapas; regressão de combate. Capturas da dungeon ficam em `/tmp/portais-dungeon-*.png`.
+Validação atual: código funcional inalterado; nova distribuição de obstáculos e detecção de oclusão de mobs; capturas da entrada, região central e chefe na dungeon; desktop/celular; carregamento sem requisições externas; cache estável após trocas entre os mapas; regressão de combate. Capturas da dungeon ficam em `/tmp/portais-dungeon-*.png`.
 
 O banco e a fogueira do Refúgio continuam com o desenho anterior. Personagens e HUD não foram redesenhados nesta tarefa de cenário.
+
+## Visibilidade dos caminhos e inimigos
+
+Árvores altas são espaçadas e não são escolhidas junto às trilhas. As bordas da arena recebem obstáculos baixos; o arco monumental permanece. Os elementos baixos conservam a indicação da célula sólida sem ampliar colisões.
+
+A detecção de oclusão considera a área desenhada de todos os personagens vivos, incluindo goblins, magos e o chefe, e respeita a ordem de profundidade. Quando um objeto encobre um ator, sua parte superior usa 13% de opacidade; os últimos dez pixels da base continuam opacos. Isso mantém a leitura do obstáculo sem esconder o combate. Decorações baixas são menos frequentes e evitam a proximidade imediata dos atores.
+
+O teste valida um mob atrás e à frente da árvore e a baixa densidade de árvores altas nas células sólidas visíveis. Nenhuma célula, colisão ou posição funcional foi alterada.
