@@ -4,12 +4,13 @@
     32,
     16
   ],
-  "scope": "hub",
+  "scope": "hub,dungeon",
   "lightDirection": "upper-left",
   "atlases": {
     "objects": "assets/environment/refuge/objects.png",
     "terrain": "assets/environment/refuge/terrain.png",
-    "details": "assets/environment/refuge/details.png"
+    "details": "assets/environment/refuge/details.png",
+    "dungeon": "assets/environment/dungeon/objects.png"
   },
   "sprites": {
     "oak": {
@@ -225,6 +226,82 @@
         0.5,
         1
       ]
+    },
+    "fendaTree": {
+      "category": "dungeon",
+      "atlas": "dungeon",
+      "rect": [
+        0,
+        0,
+        0.52,
+        0.5
+      ],
+      "size": [
+        49,
+        62
+      ],
+      "origin": [
+        0.5,
+        1
+      ],
+      "occludes": true
+    },
+    "fendaCrystal": {
+      "category": "dungeon",
+      "atlas": "dungeon",
+      "rect": [
+        0.54,
+        0,
+        0.46,
+        0.525
+      ],
+      "size": [
+        28,
+        31
+      ],
+      "origin": [
+        0.5,
+        1
+      ],
+      "occludes": false
+    },
+    "fendaArch": {
+      "category": "dungeon",
+      "atlas": "dungeon",
+      "rect": [
+        0,
+        0.5,
+        0.548,
+        0.5
+      ],
+      "size": [
+        61,
+        78
+      ],
+      "origin": [
+        0.5,
+        1
+      ],
+      "occludes": true
+    },
+    "fendaLog": {
+      "category": "dungeon",
+      "atlas": "dungeon",
+      "rect": [
+        0.55,
+        0.58,
+        0.45,
+        0.42
+      ],
+      "size": [
+        29,
+        23
+      ],
+      "origin": [
+        0.5,
+        1
+      ],
+      "occludes": false
     }
   },
   "terrain": [

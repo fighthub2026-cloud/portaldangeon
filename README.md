@@ -60,3 +60,7 @@ As mudanças de desenho concentram-se no refúgio inicial para avaliação do us
 A v5 agora usa três atlas PNG transparentes, com 12 sprites ambientais e oito tipos de terreno: árvores, rochas, vegetação, ruínas, portal, pontes, lanternas, altar e cogumelos. A integração aplica origens individuais, profundidade, transparência quando árvores encobrem o personagem e cache de terrenos. Todos os assets continuam incorporados ao HTML offline. A dungeon e os sistemas de jogo foram preservados.
 
 Veja [a documentação do piloto](docs/REFUGIO_VISUAL.md) para editar o catálogo, incorporar os PNGs e reproduzir a validação. O Refúgio é a área de avaliação antes da evolução da dungeon.
+
+## Mesmo padrão em todos os mapas
+
+A Floresta da Fenda agora usa o catálogo e os terrenos do Refúgio, com quatro sprites adicionais de árvores retorcidas, cristais, ruínas monumentais e troncos com cogumelos. Entrada, mata central e arena do chefe têm terrenos distintos; a névoa é localizada e os portais de ida e volta compartilham o acabamento. Os mapas e sistemas de jogo permanecem intactos. O Refúgio conserva o resultado do piloto.

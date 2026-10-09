@@ -9,4 +9,4 @@ Decisão do usuário em 2026-10-09: voltar à v5 e trabalhar em cima dela.
 - As outras versões podem permanecer como histórico.
 - Depois da escolha da base, o usuário autorizou melhorar primeiro uma área do mapa. O refúgio da v5 foi renovado com clareira, trilhas, riacho, pontes e pontos marcantes. Avaliar esta área antes de expandir as mudanças ao mapa inteiro.
 
-- O piloto atual integra PNGs apenas no Refúgio. Fontes em `assets/environment/refuge`, incorporação por `scripts/embed-refuge.py` e documentação em `docs/REFUGIO_VISUAL.md`. Preservar sistemas de jogo e não avançar para a dungeon sem avaliação do piloto.
+- O usuário autorizou aplicar o mesmo padrão em todo o jogo. O catálogo PNG e os terrenos atendem ao Refúgio e à dungeon, com variações de cenário da Floresta da Fenda. Fontes em `assets/environment/refuge` e `assets/environment/dungeon`, incorporação por `scripts/embed-refuge.py`. Preservar os sistemas de jogo e a base v5 2D.
