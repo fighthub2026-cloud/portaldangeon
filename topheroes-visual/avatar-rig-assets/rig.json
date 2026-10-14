@@ -1,0 +1,185 @@
+{
+  "version": 1,
+  "source": "character-base-rig-atlas.png",
+  "sourceSize": [
+    1448,
+    1086
+  ],
+  "view": "front",
+  "parts": {
+    "head": {
+      "label": "Cabeça",
+      "rect": [
+        46,
+        17,
+        343,
+        351
+      ]
+    },
+    "torso": {
+      "label": "Tronco",
+      "rect": [
+        437,
+        32,
+        274,
+        256
+      ]
+    },
+    "pelvis": {
+      "label": "Quadril / cueca",
+      "rect": [
+        796,
+        123,
+        318,
+        163
+      ]
+    },
+    "fullArm": {
+      "label": "Braço contínuo",
+      "rect": [
+        1219,
+        31,
+        170,
+        337
+      ]
+    },
+    "hand": {
+      "label": "Mão relaxada",
+      "rect": [
+        106,
+        459,
+        201,
+        241
+      ]
+    },
+    "fist": {
+      "label": "Punho",
+      "rect": [
+        483,
+        458,
+        187,
+        214
+      ]
+    },
+    "fullLeg": {
+      "label": "Perna contínua",
+      "rect": [
+        864,
+        376,
+        152,
+        342
+      ]
+    },
+    "foot": {
+      "label": "Pé",
+      "rect": [
+        1190,
+        432,
+        190,
+        253
+      ]
+    },
+    "upperArm": {
+      "label": "Braço",
+      "rect": [
+        131,
+        741,
+        166,
+        295
+      ]
+    },
+    "forearm": {
+      "label": "Antebraço",
+      "rect": [
+        501,
+        742,
+        136,
+        294
+      ]
+    },
+    "thigh": {
+      "label": "Coxa",
+      "rect": [
+        841,
+        730,
+        187,
+        325
+      ]
+    },
+    "shin": {
+      "label": "Canela",
+      "rect": [
+        1220,
+        725,
+        148,
+        316
+      ]
+    }
+  },
+  "meta": {
+    "head": {
+      "width": 182,
+      "height": 186,
+      "pivot": [
+        0.5,
+        0.94
+      ]
+    },
+    "torso": {
+      "width": 129,
+      "height": 130,
+      "pivot": [
+        0.5,
+        0.11
+      ]
+    },
+    "pelvis": {
+      "width": 105,
+      "height": 57,
+      "pivot": [
+        0.5,
+        0.1
+      ]
+    },
+    "fullArm": {
+      "width": 43,
+      "joints": [
+        0.1,
+        0.51,
+        0.89
+      ]
+    },
+    "fullLeg": {
+      "width": 46,
+      "joints": [
+        0.1,
+        0.5,
+        0.89
+      ]
+    },
+    "hand": {
+      "width": 30,
+      "height": 38,
+      "pivot": [
+        0.5,
+        0.23
+      ]
+    },
+    "fist": {
+      "width": 32,
+      "height": 32,
+      "pivot": [
+        0.5,
+        0.23
+      ]
+    },
+    "foot": {
+      "width": 48,
+      "height": 38,
+      "pivot": [
+        0.5,
+        0.25
+      ]
+    }
+  }
+}
