@@ -1,0 +1,135 @@
+{
+  "status": "visual-study-not-production-approved",
+  "method": "full-raster-frame-by-frame",
+  "fps": 24,
+  "frameCount": 24,
+  "cell": [
+    444,
+    444
+  ],
+  "baselineAlignment": "vertical-only",
+  "equipmentLayer": "not-created",
+  "colorMasks": "not-created",
+  "frames": [
+    {
+      "file": "frame-01.png",
+      "index": 0,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-02.png",
+      "index": 1,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-03.png",
+      "index": 2,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-04.png",
+      "index": 3,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-05.png",
+      "index": 4,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-06.png",
+      "index": 5,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-07.png",
+      "index": 6,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-08.png",
+      "index": 7,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-09.png",
+      "index": 8,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-10.png",
+      "index": 9,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-11.png",
+      "index": 10,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-12.png",
+      "index": 11,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-13.png",
+      "index": 12,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-14.png",
+      "index": 13,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-15.png",
+      "index": 14,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-16.png",
+      "index": 15,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-17.png",
+      "index": 16,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-18.png",
+      "index": 17,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-19.png",
+      "index": 18,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-20.png",
+      "index": 19,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-21.png",
+      "index": 20,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-22.png",
+      "index": 21,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-23.png",
+      "index": 22,
+      "durationMs": 41.666666666666664
+    },
+    {
+      "file": "frame-24.png",
+      "index": 23,
+      "durationMs": 41.666666666666664
+    }
+  ]
+}
