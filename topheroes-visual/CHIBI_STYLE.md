@@ -39,3 +39,9 @@ O arquivo da referência usa animação por peças e ossos. Isso pode ser usado 
 A referência enviada cobre uma vista lateral/três quartos. Não fornece por si só todas as vistas necessárias para o movimento em oito direções do projeto isométrico; essas artes adicionais precisam ser preparadas e validadas.
 
 Os arquivos de terceiros não foram republicados neste estudo. Foram registrados apenas os achados da inspeção e a nova referência visual original.
+
+## Mago adaptado ao padrão compacto
+
+Proposta visual: [`references/chibi-mage-modular-concept.png`](references/chibi-mage-modular-concept.png). A prancha reúne o mago montado e uma apresentação das peças: cabeça sem expressão, rostos alternativos, traje com capa, mangas curtas, mãos, botinhas, cajado e efeito separados. Preserva cabelo roxo escuro, olhos ciano, roupa roxa e dourada e capa magenta.
+
+O padrão solicitado é uma família de peças compactas com encaixes compatíveis, variando preenchimentos e silhuetas conforme o traje. Cada roupa precisa respeitar a escala, a posição do desenho no arquivo, as margens, as sobreposições e os pontos de ligação. A referência é uma proposta de aparência; a prancha ainda não contém sprites individuais com transparência, máscaras de cor, pivôs ou animações validadas. A montagem ilustrada também precisa ser conferida contra as peças reais durante a preparação do kit.
