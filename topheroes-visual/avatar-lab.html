@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aetheria · Laboratório do avatar</title>
+<style>
+:root{color-scheme:dark;font:15px system-ui,sans-serif;background:#10121b;color:#eeeefa}*{box-sizing:border-box}body{margin:0}header{max-width:1180px;margin:auto;padding:26px 22px 18px}h1{font-size:25px;margin:0 0 9px}p{color:#b6b9cf;line-height:1.5;margin:0}main{max-width:1180px;margin:auto;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,1fr);gap:18px;padding:0 22px 30px}.card{background:#1a1d2b;border:1px solid #303449;border-radius:18px;padding:18px}.preview{position:sticky;top:15px;align-self:start}canvas{width:100%;height:auto;display:block;border-radius:12px;touch-action:none}h2{font-size:17px;margin:0 0 15px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;color:#d9dbee}select{width:145px;max-width:58%;padding:8px;background:#10121b;border:1px solid #454b69;color:white;border-radius:8px}input[type=color]{width:49px;height:34px;border:1px solid #555b75;border-radius:6px;background:transparent;padding:2px;cursor:pointer}fieldset{border:0;border-top:1px solid #303449;padding:18px 0 0;margin:20px 0 0}legend{font-weight:650;padding:0 8px 0 0}.buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}button{border:1px solid #454b69;border-radius:9px;background:#282d45;color:#fff;padding:10px 13px;font:inherit;font-size:13px;cursor:pointer}button:hover{background:#3a4161}button[aria-pressed=true]{background:#6555bc;border-color:#a99be8}.note{font-size:12px;margin-top:13px}#status{min-height:22px;color:#a9e2c0;margin-top:10px;font-size:13px}.file{display:none}@media(max-width:800px){main{grid-template-columns:1fr;padding:0 12px 25px}.preview{position:static}header{padding:20px 14px}.grid{gap:12px 8px}}@media(prefers-reduced-motion:reduce){canvas{scroll-behavior:auto}}
+.card,fieldset{min-width:0}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:480px){.grid{grid-template-columns:1fr}.grid select{max-width:65%;width:180px}}
+</style>
+<header><h1>Aetheria · Laboratório do avatar</h1><p>Experimente peças, cores e articulações em um desenho procedural. Funciona offline, sem instalar nada.</p></header>
+<main>
+<section class="card preview"><canvas id="avatar" width="600" height="640" role="img" aria-label="Avatar personalizável de fantasia"></canvas>
+<div class="buttons" id="motions"><button data-motion="idle" aria-pressed="true">Parado</button><button data-motion="walk" aria-pressed="false">Andar</button><button data-motion="attack" aria-pressed="false">Ataque</button><button data-motion="cast" aria-pressed="false">Magia</button></div>
+<div class="buttons" id="backgrounds"><button data-bg="grass">Grama</button><button data-bg="light">Fundo claro</button><button data-bg="dark">Fundo escuro</button></div>
+<label style="margin-top:15px;justify-content:flex-start"><input id="animate" type="checkbox" checked> Animar</label>
+<p class="note">Estudo frontal em Canvas 2D. Não representa ainda a arte final, as oito direções ou um personagem pronto para Unity. As curvas desenhadas por código escondem as juntas; sprites precisarão de preparação própria.</p>
+</section>
+<section class="card"><h2>Personalização</h2><div class="grid" id="parts"></div><fieldset><legend>Rosto e corpo</legend><div class="grid" id="face"></div></fieldset><fieldset><legend>Traje e equipamento</legend><div class="grid" id="gear"></div></fieldset>
+<div class="buttons"><button id="random">Combinação aleatória</button><button id="reset">Restaurar mago</button><button id="save">Salvar aparência</button><button id="load">Carregar aparência</button></div><input id="file" class="file" type="file" accept="application/json,.json"><div id="status" role="status" aria-live="polite"></div>
+<p class="note">O traje troca inteiro; as regiões dele continuam com cores independentes. O preto do contorno é fixo. Salvar aparência baixa um JSON, não um modelo ou rig.</p>
+</section></main>
+<script>
+'use strict';
+const defaults={hair:'messy',eyes:'round',brows:'arched',outfit:'mage',weapon:'staff',skin:'#d99a64',hairColor:'#30213e',eyeColor:'#27b8de',browColor:'#251b2c',primary:'#71328c',secondary:'#c44579',boots:'#754126',gloves:'#754126',belt:'#824b2c',metal:'#e4b650',symbol:'#35c9ed',crystal:'#28bbf1'};
+let state={...defaults},motion='idle',bg='grass',animating=!matchMedia('(prefers-reduced-motion: reduce)').matches,time=0,last=0;
+const canvas=document.querySelector('#avatar'),g=canvas.getContext('2d'),controls={},outline='#000000';
+document.querySelector('#animate').checked=animating;
+const parts=[['hair','Cabelo',{none:'Careca',messy:'Bagunçado',short:'Curto',long:'Comprido',crest:'Moicano'}],['eyes','Olhos',{round:'Redondos',almond:'Amendoados',focused:'Concentrados'}],['brows','Sobrancelhas',{arched:'Arqueadas',straight:'Retas',thick:'Grossas'}],['outfit','Traje completo',{base:'Só cueca',mage:'Mago',ranger:'Aventureiro',knight:'Armadura'}],['weapon','Equipamento',{none:'Sem arma',staff:'Cajado'}]];
+const face=[['skin','Pele'],['hairColor','Cabelo'],['eyeColor','Íris'],['browColor','Sobrancelhas']];
+const gear=[['primary','Tecido principal'],['secondary','Tecido secundário'],['boots','Botas'],['gloves','Luvas'],['belt','Cinto'],['metal','Metal / armadura'],['symbol','Símbolo / bordado'],['crystal','Cristal do cajado']];
+for(const [key,label,options] of parts){const row=document.createElement('label');row.append(label);const el=document.createElement('select');el.id=key;for(const [v,n] of Object.entries(options)){const op=document.createElement('option');op.value=v;op.textContent=n;el.append(op)}row.append(el);document.querySelector('#parts').append(row);bind(key,el)}
+for(const [group,list] of [['face',face],['gear',gear]])for(const [key,label]of list){const row=document.createElement('label');row.append(label);const el=document.createElement('input');el.type='color';el.id=key;row.append(el);document.querySelector('#'+group).append(row);bind(key,el)}
+function bind(k,el){controls[k]=el;el.value=state[k];el.addEventListener('input',()=>{state[k]=el.value;status('')})}
+function sync(){for(const k in controls)controls[k].value=state[k]}
+function status(s){document.querySelector('#status').textContent=s}
+document.querySelectorAll('[data-motion]').forEach(b=>b.onclick=()=>{motion=b.dataset.motion;time=0;document.querySelectorAll('[data-motion]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))) });
+document.querySelectorAll('[data-bg]').forEach(b=>b.onclick=()=>bg=b.dataset.bg);
+document.querySelector('#animate').onchange=e=>animating=e.target.checked;
+document.querySelector('#reset').onclick=()=>{state={...defaults};sync();status('Aparência do mago restaurada.')};
+document.querySelector('#random').onclick=()=>{for(const k of [...face,...gear].map(a=>a[0]))state[k]='#'+Math.floor(Math.random()*0x1000000).toString(16).padStart(6,'0');for(const[k,,opts]of parts){const values=Object.keys(opts);state[k]=values[Math.floor(Math.random()*values.length)]}sync();status('Nova combinação criada.')};
+document.querySelector('#save').onclick=()=>{const blob=new Blob([JSON.stringify({format:'aetheria-avatar-lab',version:1,appearance:state},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='aetheria-avatar.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);status('Aparência exportada em JSON.')};
+document.querySelector('#load').onclick=()=>document.querySelector('#file').click();
+document.querySelector('#file').onchange=async e=>{try{const f=e.target.files[0];if(!f)return;if(f.size>100000)throw Error('Arquivo muito grande.');const data=JSON.parse(await f.text());if(data.format!=='aetheria-avatar-lab'||data.version!==1||!data.appearance)throw Error('Formato não reconhecido.');const next={};for(const k in defaults){const value=data.appearance[k];const part=parts.find(p=>p[0]===k);if(typeof value!=='string'||(part?!Object.hasOwn(part[2],value):!/^#[0-9a-f]{6}$/i.test(value)))throw Error('Aparência inválida.');next[k]=value}state=next;sync();status('Aparência carregada.')}catch(err){status('Não foi possível carregar: '+err.message)}finally{e.target.value=''}};
+function path(d,fill,stroke=outline,w=3){g.beginPath();d();if(fill){g.fillStyle=fill;g.fill()}if(stroke){g.strokeStyle=stroke;g.lineWidth=w;g.lineJoin='round';g.lineCap='round';g.stroke()}}
+function poly(points,fill,stroke=outline,w=3){path(()=>{g.moveTo(...points[0]);points.slice(1).forEach(p=>g.lineTo(...p));g.closePath()},fill,stroke,w)}
+function ellipse(x,y,rx,ry,fill,stroke=outline,w=3){path(()=>g.ellipse(x,y,rx,ry,0,0,Math.PI*2),fill,stroke,w)}
+function line(points,color,width){path(()=>{g.moveTo(...points[0]);points.slice(1).forEach(p=>g.lineTo(...p))},null,color,width)}
+function round(x,y,w,h,r,fill,stroke=outline,width=3){path(()=>g.roundRect(x,y,w,h,r),fill,stroke,width)}
+function highlight(draw){g.save();g.globalAlpha=.15;draw();g.restore()}
+function arm(side,upper,fore,clothed){const shoulder={x:side*43,y:10},elbow={x:shoulder.x+side*Math.sin(upper)*38,y:10+Math.cos(upper)*38},hand={x:elbow.x+side*Math.sin(upper+fore)*36,y:elbow.y+Math.cos(upper+fore)*36};
+ // One continuous limb avoids a dark cut line through the elbow.
+ line([[shoulder.x,shoulder.y],[elbow.x,elbow.y],[hand.x,hand.y]],outline,25);line([[shoulder.x,shoulder.y],[elbow.x,elbow.y],[hand.x,hand.y]],state.skin,19);
+ if(clothed){const end={x:shoulder.x+side*Math.sin(upper)*25,y:shoulder.y+Math.cos(upper)*25};line([[shoulder.x,shoulder.y],[end.x,end.y]],outline,33);line([[shoulder.x,shoulder.y],[end.x,end.y]],state.primary,27);if(state.outfit==='knight')ellipse(shoulder.x,shoulder.y+4,20,16,state.metal)}
+ if(side===1&&state.weapon==='staff'){g.save();g.translate(hand.x,hand.y);g.rotate((upper-.6)*-.4);round(-5,-151,10,194,4,state.belt);ellipse(0,43,8,9,state.metal);poly([[-3,-144],[-18,-163],[-14,-183],[0,-200],[14,-183],[18,-163],[3,-144]],state.metal);poly([[0,-193],[-12,-172],[0,-151],[12,-172]],state.crystal);highlight(()=>poly([[0,-193],[-12,-172],[0,-176]],'#ffffff',null));g.restore()}
+ if(clothed){const wrist={x:elbow.x+side*Math.sin(upper+fore)*19,y:elbow.y+Math.cos(upper+fore)*19};line([[wrist.x,wrist.y],[hand.x,hand.y]],outline,26);line([[wrist.x,wrist.y],[hand.x,hand.y]],state.gloves,20)}
+ ellipse(hand.x,hand.y,12,15,clothed?state.gloves:state.skin);line([[hand.x+side*4,hand.y],[hand.x+side*5,hand.y+7]],outline,1.5);
+}
+function draw(){g.clearRect(0,0,600,640);g.fillStyle=bg==='grass'?'#aecb7a':bg==='light'?'#e9e8e2':'#272c3c';g.fillRect(0,0,600,640);if(bg==='grass'){g.fillStyle='#d9bf88';g.beginPath();g.ellipse(300,505,230,85,0,0,Math.PI*2);g.fill();for(let i=0;i<30;i++){const x=(i*137+43)%600,y=400+(i*47)%220;g.fillStyle='#94b762';g.fillRect(x,y,4,7)}}
+ g.save();g.translate(300,310);g.fillStyle='rgba(0,0,0,.18)';g.beginPath();g.ellipse(0,181,76,14,0,0,Math.PI*2);g.fill();
+ const walk=motion==='walk'?Math.sin(time*7):0,pulse=(motion==='attack'||motion==='cast')?Math.pow(Math.max(0,Math.sin(time*3)),2):0,bob=motion==='walk'?Math.abs(walk)*4:Math.sin(time*2)*1.3,clothed=state.outfit!=='base';g.translate(0,-bob);
+ if(state.hair==='long')round(-73,-133,146,160,32,state.hairColor);
+ for(const side of [-1,1]){g.save();g.translate(side*24,98);g.rotate(walk*side*.23);round(-15,0,30,64,13,clothed?'#302c36':state.skin);if(clothed){round(-19,40,38,37,10,state.boots);round(-20,66,43,16,7,state.boots);line([[-15,44],[16,44]],state.metal,6);if(state.outfit==='knight')round(-15,63,33,14,5,state.metal)}else ellipse(3,72,21,10,state.skin);g.restore()}
+ if(!clothed){round(-42,-7,84,105,26,state.skin);round(-43,65,86,41,9,'#f3e5cf');line([[0,78],[0,106]],outline,2);line([[-40,76],[40,76]],'#baa990',2)}else{
+ poly([[-37,-7],[37,-7],[48,41],[54,116],[8,125],[0,109],[-8,125],[-54,116],[-48,41]],state.primary);
+ poly([[-37,-7],[-50,37],[-11,41],[0,13],[11,41],[50,37],[37,-7]],state.secondary);
+ if(state.outfit==='knight'){round(-31,27,62,44,10,state.metal);poly([[-23,36],[23,36],[17,61],[-17,61]],state.secondary)}
+ line([[-47,110],[-9,118]],state.metal,5);line([[9,118],[47,110]],state.metal,5);
+ round(-48,67,96,19,5,state.belt);round(-12,65,24,23,4,state.metal);round(-6,71,12,11,2,state.belt,null);
+ if(state.outfit==='ranger'){round(-47,80,22,25,4,state.belt);line([[-35,0],[37,65]],state.belt,12)}
+ poly([[0,29],[11,40],[0,51],[-11,40]],state.symbol);line([[-28,99],[-24,91],[-20,99]],state.symbol,3);line([[20,99],[24,91],[28,99]],state.symbol,3);
+ }
+ arm(-1,.28-walk*.22,.12,clothed);arm(1,.6+walk*.22+(motion==='attack'?pulse*1.35:motion==='cast'?pulse*2:0),.05-pulse*.45,clothed);
+ round(-16,-35,32,33,9,state.skin);ellipse(-68,-103,15,22,state.skin);ellipse(68,-103,15,22,state.skin);
+ path(()=>{g.moveTo(0,-192);g.bezierCurveTo(101,-192,85,-98,64,-69);g.bezierCurveTo(37,-24,-37,-24,-64,-69);g.bezierCurveTo(-85,-98,-101,-192,0,-192);g.closePath()},state.skin);
+ highlight(()=>ellipse(-24,-153,38,19,'#fff',null));
+ for(const side of [-1,1]){const x=side*29,y=-102,ry=state.eyes==='focused'?13:state.eyes==='almond'?18:22;ellipse(x,y,19,ry,'#fff');ellipse(x+side*1,y+2,10,Math.min(15,ry-3),state.eyeColor);ellipse(x+side*1,y+3,4,Math.min(10,ry-5),'#080a10',null);ellipse(x-3,y-5,3.4,4,'#fff',null);if(state.eyes==='focused')line([[x-19,y-12-side*3],[x+19,y-12+side*3]],outline,4);
+ path(()=>{g.moveTo(x-17,-136);if(state.brows==='straight')g.lineTo(x+17,-135);else g.quadraticCurveTo(x,-148,x+17,-136)},null,state.browColor,state.brows==='thick'?9:5)}
+ path(()=>{g.moveTo(-10,-66);g.quadraticCurveTo(0,-59,10,-66)},null,outline,2);line([[-2,-84],[2,-82]],'rgba(0,0,0,.3)',2);
+ if(state.hair!=='none'){
+ if(state.hair==='short')path(()=>{g.moveTo(-71,-116);g.bezierCurveTo(-95,-223,91,-224,72,-116);g.lineTo(52,-158);g.lineTo(26,-150);g.lineTo(0,-164);g.lineTo(-27,-147);g.lineTo(-53,-156);g.closePath()},state.hairColor);
+ else if(state.hair==='crest')poly([[-24,-164],[-23,-208],[-8,-194],[3,-224],[15,-198],[30,-207],[24,-163]],state.hairColor);
+ else path(()=>{g.moveTo(-71,-112);g.lineTo(-89,-157);g.lineTo(-75,-159);g.lineTo(-79,-186);g.lineTo(-54,-184);g.lineTo(-42,-209);g.lineTo(-15,-199);g.lineTo(5,-217);g.lineTo(25,-199);g.bezierCurveTo(75,-210,91,-168,74,-113);g.lineTo(51,-154);g.lineTo(20,-128);g.lineTo(26,-169);g.lineTo(-9,-137);g.lineTo(-10,-165);g.lineTo(-48,-129);g.lineTo(-49,-156);g.closePath()},state.hairColor);
+ highlight(()=>path(()=>{g.moveTo(-54,-175);g.quadraticCurveTo(-20,-197,7,-184);g.lineTo(-23,-169);g.closePath()},'#fff',null));}
+ if(motion==='cast'&&pulse>.05){g.save();g.globalAlpha=pulse*.7;for(let i=0;i<7;i++){const a=time*2+i*Math.PI*2/7;ellipse(130+Math.cos(a)*30,-100+Math.sin(a)*30,4,4,state.crystal,null)}g.restore()}
+ g.restore();
+}
+function frame(now){if(last&&animating)time+=Math.min((now-last)/1000,.05);last=now;draw();requestAnimationFrame(frame)}requestAnimationFrame(frame);
+</script>
+</html>
