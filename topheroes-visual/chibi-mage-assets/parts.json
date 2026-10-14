@@ -1,0 +1,280 @@
+{
+  "source": "../references/chibi-mage-modular-concept.png",
+  "sourceSize": [
+    1609,
+    977
+  ],
+  "coordinates": "All regions and pivots use pixels, origin top-left. Pivot is local to the saved untrimmed PNG.",
+  "method": "Faithful crop of the right-hand original atlas; Canvas connected green background removal and outline-edge decontamination. No drawing, generative fill or deformation.",
+  "parts": {
+    "head": {
+      "region": [
+        860,
+        10,
+        498,
+        394
+      ],
+      "pivot": [
+        250,
+        375
+      ],
+      "faceAnchor": [
+        250,
+        298
+      ],
+      "visibleBounds": [
+        5,
+        7,
+        485,
+        382
+      ],
+      "image": "head.png",
+      "sha256": "869f71289a7037a123963c99d95e8d97841650df19abb0cf383957f8837980c2"
+    },
+    "face-open": {
+      "region": [
+        846,
+        405,
+        174,
+        101
+      ],
+      "pivot": [
+        86,
+        56
+      ],
+      "visibleBounds": [
+        6,
+        3,
+        158,
+        89
+      ],
+      "image": "face-open.png",
+      "sha256": "31bb08c19b4a90ef7e4e828030ac85c2bb9c039170b2641163073f3393dafe8c"
+    },
+    "face-blink": {
+      "region": [
+        1037,
+        408,
+        145,
+        98
+      ],
+      "pivot": [
+        71,
+        53
+      ],
+      "visibleBounds": [
+        6,
+        8,
+        129,
+        79
+      ],
+      "image": "face-blink.png",
+      "sha256": "a89048d5ca47b36ae8153f5e2dda7851c0bba7dba67282de7013d3a998cba1b9"
+    },
+    "face-cast": {
+      "region": [
+        1199,
+        400,
+        176,
+        108
+      ],
+      "pivot": [
+        83,
+        61
+      ],
+      "visibleBounds": [
+        4,
+        4,
+        159,
+        98
+      ],
+      "image": "face-cast.png",
+      "sha256": "a76247f5f664bcc2b6f25cd7daf4efd684eba774b320de1b07b4436d5bdf63e8"
+    },
+    "torso": {
+      "region": [
+        982,
+        514,
+        256,
+        235
+      ],
+      "pivot": [
+        126,
+        27
+      ],
+      "visibleBounds": [
+        4,
+        5,
+        246,
+        228
+      ],
+      "image": "torso.png",
+      "sha256": "79f225dc18fd7ca18a8ff0b77a0d358fdf59bccf84f016725553636600b311a7"
+    },
+    "sleeve-left": {
+      "region": [
+        892,
+        540,
+        88,
+        84
+      ],
+      "pivot": [
+        61,
+        27
+      ],
+      "visibleBounds": [
+        6,
+        5,
+        77,
+        74
+      ],
+      "image": "sleeve-left.png",
+      "sha256": "38a017bbc9c5ddfaf0d29789a0500c0546131d0c30a116719e30f68e1760e2b6"
+    },
+    "sleeve-right": {
+      "region": [
+        1241,
+        540,
+        90,
+        84
+      ],
+      "pivot": [
+        25,
+        27
+      ],
+      "visibleBounds": [
+        6,
+        5,
+        77,
+        77
+      ],
+      "image": "sleeve-right.png",
+      "sha256": "3d66d772ff7c47d738d0f333dc90ebe2c76510576cbe1e88bf31fe95f70fd358"
+    },
+    "hand-left": {
+      "region": [
+        875,
+        632,
+        99,
+        97
+      ],
+      "pivot": [
+        65,
+        23
+      ],
+      "visibleBounds": [
+        6,
+        4,
+        85,
+        87
+      ],
+      "image": "hand-left.png",
+      "sha256": "f18674a9eb7fe36c8c06c48af8baa67af699e3a51def8e65e61699b1d42a1ee9"
+    },
+    "hand-right": {
+      "region": [
+        1244,
+        631,
+        100,
+        98
+      ],
+      "pivot": [
+        34,
+        24
+      ],
+      "visibleBounds": [
+        7,
+        6,
+        85,
+        87
+      ],
+      "image": "hand-right.png",
+      "sha256": "b10d57d3931d61ca5b8e7dce67fc895a137fdfaf997c9e00f3eac507f5cb2c4d"
+    },
+    "boot-left": {
+      "region": [
+        970,
+        747,
+        113,
+        78
+      ],
+      "pivot": [
+        63,
+        23
+      ],
+      "visibleBounds": [
+        3,
+        3,
+        103,
+        69
+      ],
+      "image": "boot-left.png",
+      "sha256": "0afbcca4a9bb807da09364888bb436ba16a90f9ede0bf8077369911b34206567"
+    },
+    "boot-right": {
+      "region": [
+        1136,
+        746,
+        114,
+        79
+      ],
+      "pivot": [
+        56,
+        24
+      ],
+      "visibleBounds": [
+        5,
+        4,
+        101,
+        69
+      ],
+      "image": "boot-right.png",
+      "sha256": "7e1f8b77f911c6baba2a9fa2e698c7428189aa0b88778176bfb710d9f3327e5e"
+    },
+    "staff": {
+      "region": [
+        1377,
+        362,
+        174,
+        494
+      ],
+      "pivot": [
+        87,
+        284
+      ],
+      "tip": [
+        83,
+        112
+      ],
+      "visibleBounds": [
+        7,
+        7,
+        147,
+        482
+      ],
+      "image": "staff.png",
+      "sha256": "f8b83b9d989f89c1a29a32057306f2d368e70624aa0dff99f356a495578ee0a0"
+    },
+    "spell-swipe": {
+      "region": [
+        938,
+        824,
+        247,
+        140
+      ],
+      "pivot": [
+        15,
+        17
+      ],
+      "visibleBounds": [
+        11,
+        10,
+        223,
+        120
+      ],
+      "image": "spell-swipe.png",
+      "sha256": "d954cd5fdd2166f2c8a48e9dd41fe888781650849b8b4f924db4468dfcc42e9e"
+    }
+  },
+  "pivot_note": "Pivôs sugeridos para preparação; o GIF foi calibrado por centros das peças e hierarquia de animação."
+}
